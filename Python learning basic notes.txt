@@ -1,0 +1,575 @@
+1.	python的学习
+	print("i love you\n" * 8)
+	python没有;,这种标点符号！
+
+2.	设计一个小游戏
+#coding: gbk
+print('-------------我爱鱼c工作室--------------')
+temp = input("猜一下小甲鱼现在心里想的是哪个数字:\n")		
+guess = int(temp)											//这里将temp强行转化成Int格式
+if guess == 8:
+    print("卧槽，你是小甲鱼心里蛆虫吗？！")
+    print("哼，猜中了也没有奖励！")
+else:
+    print("猜错啦，小甲鱼现在心里想的是8！")
+print("游戏结束，不玩啦~")
+
+3.	BIF = built-in function，内置程序
+
+4.	大小写的变量不一样！
+
+5.	原始字符串：
+	str = 'C:\desktop\nuser'	这里打印的话会有转义现象，需要这样：
+	str = r'C:\desktop\nuser'	加一个r即可
+	#直接敲str的结果是'C:\\desktop\\nuser'
+	
+	注意：原始字符串在最后是不能加反斜杠的
+	
+	如果想打印直接换行，可以直接这样：（更快）
+	str = """
+	我爱你我爱你我爱你
+	我爱你我爱你
+	我爱你
+	我
+	"""
+	然后输入str就会自动返回'\n我爱你我爱你我爱你\n我爱你我爱你\n我爱你\n我\n'
+	这样刚刚好
+	
+6.	and逻辑操作符，可以连接任意的表达式并且返回一个布尔类型的值。
+	or逻辑符，同理
+	not逻辑符：取相反布尔类型的值
+	
+7.	random模块中有一个randint()函数。
+	返回一个随机的整数。
+	
+8.	可以直接这样写数据: a = 1.5e11，就是1.5 * 10 ^ 11
+	
+	布尔类型是整数！
+	你可以这么写：true + true
+	true = 1, false = 0
+	
+	强制转型：int(), float(), str()
+	
+	int(5.99) = 5
+	
+	获得关于类型的信息: type(), isinstance()
+	
+	isinstance()用法：（返回布尔类型）
+	a = '我爱你'
+	isinstance(a, str)
+	这句就会打印true。
+	这里各种类型是：int float bool str
+	
+9.	算数操作符
+	a +=
+	b *=
+	c */
+	这样可以，但是a++这样不行
+	
+	a = b = c = d = 10
+	直接方便赋值
+	
+	%：取余数
+	//：取整数
+	**：幂
+	
+	10 // 3.0只要里面有float，则结果是float结果。
+	
+	8 * -3可以直接写，可以不用加括号在负数这里
+	
+	幂运算中，幂比它左侧的优先级高，右侧的优先级低
+	-3 ** 2，这里输出-9
+	
+	not逻辑符，取相反的布尔类型的值。
+	0认为是false,其他认为是true
+	所以not 0 = true
+	not 4 = false
+	
+	3 < 4 < 5
+	这样写也是合法的，会自动改写成3 < 4 and 4 < 5
+	
+	x, y = 4, 5
+	
+10.	分支语句：
+	if, if, if
+	if: else:
+	if: elif:
+	
+	三元操作：
+	可以这么来写：
+	guess = x if x > y else y
+	(即当x>y的时候Guess赋值x反之赋值y)
+	
+11.	assert用法
+	比如在你的程序中有x和y了，然后你需要之后使用到x和y，但是你想法是x一定大于y的，那么这个时候就可以加：
+	assert x > y
+	如果之后报错就会指明是这一点出错了！
+
+12.	while for 循环
+
+	for 目标 in 表达式：
+		循环体
+	
+	比如打印victor但是里面每个字母之间加上一个空格，可以这样：
+	f = 'victor'
+	for i in f:
+		print(i, end = ' ')
+		
+	number = ['vic', 'grace', 'leeloo']		#创建一个列表
+	for each in number:
+		print(each, len(each))				#打印了每一个列表中的字符串，加上它的len长度
+	
+	range()函数
+	list(range(5))							#[0, 1, 2, 3, 4]输出结果，从0开始一直到n-1!
+	
+	for i in range(6):
+		print(i)							#这样输出结果是竖着的，如果想要横着，则print(i, end = '')
+	
+	for i in range(1, 6, 2):				#每个数之间相隔2（这里注意一旦写了第三个数，则意味着这三个参数必须写满）
+		print(i)
+		
+	break：终止当前循环并跳出
+	用于while True:的循环中，不然永远也false不了
+	
+	continue语句：跳出本次循环，进行下一次循环（从头执行循环）
+
+13.	列表
+	数组
+	
+	创建普通列表：number = ['vic', 'grace', 'leeloo']
+	输出grace: number[2]
+	
+	创建混合类型
+	mix = [1, '123', [1, 2, 3, 4]]		#里面什么都可以加
+	len(mix) = 3
+	
+	向列表添加元素
+	append()
+	number.append(123)					#添加到最后
+	
+	append()每次只能添加一个元素
+	extend()添加一个列表（原理是用一个列表去扩展另一个列表，所以添加的也必须是列表）
+	
+	mix.extend(['阿阿阿', '哦哦哦'])
+	但是append([1, 2])这样的话是添加一个元素，这个元素是个列表而已
+	len()如果()中是一个单词，则返回单词的字母数量，如果是list，则返回元素数量
+	
+	insert()可以插入，插第一个位置，则insert(0, '123')
+
+14.	从列表删除元素：
+	remove()，括号是参数对象的
+    mix = [1, '123', [1, 2, 3, 4]]
+    则remove的时候需要mix.remove('123')，括号中是list中的元素
+    好处是，你不需要知道remove的元素是第几个，只需要知道在里面即可
+    
+    del，这不是一个方法而是语句
+    del mix[1]
+    则第二个元素被remove掉了
+    del mix整个全删掉
+    
+    pop()
+    mix.pop()这个是将mix中的最后一个元素删除，并赋值给pop()
+    a = mix.pop()
+    此时a是原来mix中最后一个元素，且mix中已经删除了最后一个了
+    
+    也可以加入参数
+    mix.pop(1)
+    则自动返回第二个元素并且删除第二个元素
+    
+    列表切片：slice()，一次性获取多个元素
+    mix[1: 3]
+    原列表没有任何更改
+    mix[ :3] = mix[0: 3]
+    如果要复制一份列表，则a = mix[:]   中间这个:绝对不能省！
+    
+    
+    list1 = [123]
+    list2 = [234]
+    这里list1 < list2，因为第一个数要小
+    list1 + list2，这样类似extend的连接操作
+    但是这个加号两边的对象必须是同一个类型的！
+    
+    list1 * 3，就是复制了3次
+    
+    123 in list1，这句话会返回True，因为123在list1中
+    234 not in list1, True
+    
+    list3 = [1, 2, [1, 2, 3, 4, 5]]
+    如果要找5这个数，则可以list3[2][4]连用两个中括号！
+    
+    list3.count(123)    表示返回123在list3中的次数
+    list3.index(123)    表示返回123在list中第一次出现的位置
+    list3.index(123, 4, 7)  表示返回123在list3中第4-7位置中出现的位置（因为可能重复很多次）
+    
+    reverse将整个列表反转
+    list3.reverse()
+    
+    sort()用指定的方法对list排序，默认是从小到大
+    list3.sort()    从小到大
+    从大到小：list3.sort().reverse()
+    或者list3.sort(reverse = True)
+    
+    重要！
+    以后在复制list的时候，一定要用a = list3[:]的方式！因为如果直接a = list3的话，list3改变了a也跟着改变！
+    a = list3这样只是相当于增加了一个标签而已，不要这样做
+    
+    list3[1: 3]这是获取了两个值！从第2个开始往后选2个！！！！！！！！！！
+    list3[2:]这样从第3个到最后一个（不包括第二个）！！！！！！！！！！！
+    list3[: 2]这样是从0到第2个！！！！！！！！！！！！！！！！！！！！！！
+    
+15. 元组：不可改变的
+    列表：可以任意改变里面的元素
+    tuple = (1, 2, 3, 4, 5, 6, 7, 8)
+    这就是元组
+    tuple[2] = 3
+    
+    元组拷贝一样tuple[:]
+    
+    temp = (1)
+    这样创建的还是一个int
+    temp = 1, 2, 3, 4
+    这样type(temp)创建了一个tuple元组了
+    如果只要创建一个1个数字的元组，则需要：
+    temp = (1,)     或者temp = 1,
+    这个逗号不能少！
+    
+    8 * (8,) = (8, 8, 8, 8, 8, 8, 8, 8) 是重复的意思
+    
+    
+    更改元组：
+    比如添加一个元素
+    temp = ('victor', 'grace', 'leeloo')
+    在第二个中间插入lee，这样：
+    temp = temp[: 1] + ('lee',) + temp[1:]     这里的lee后面必须有,！！
+    
+    del temp直接全部删了，不推荐，因为python会自动回收，与java一样
+   
+16.	字符串的方法
+	字符串改为大写：
+	
+	str = 'lizhen ning'
+	str.capitalize()
+	只是将这个字符串的第一个字符改为大写
+	
+	str.casefold()
+	全部改成小写，返回新的字符串，之前的字符串没有改变
+	与lower()的区别：
+	lower函数只支持ascill表中的字符，而casefold则支持很多不同种类的语言。
+	
+	str.center(40)
+	返回左边右边都有40个空格，然后居中了
+	
+	str.count(zh)
+	查找zh在str中出现的次数
+	
+	str.endswith('ng')
+	检查str是否以ng结束，是就返回True
+	注意！还可以加上范围！
+	str1 = 'lizhen ning'
+	str1.endswith('h',0,4)
+	返回True，也就是说是0-4个字符的位置中最后一个字符（这里似乎不用n-1了）
+	单独一个参数的话：
+	str1.endswith('h',4)则是第4个之后到末尾的最后一个字符
+	
+	str.startswith()
+	同理
+	
+	str.find('zh')
+	str.find('', 1, 8)（可加范围参数）
+	如果能找到就返回下标（从0开始），如果找不到就返回-1
+	
+	str.index('zh', 1, 9)（可加范围参数）
+	结果跟find一样，但是如果找不到会报错，而不是返回-1
+	
+	str.isalnum()		至少一个字符并且所有都是数字或者英文字母，返回True
+	str.isalpha()		字符串中至少有一个字符并且全都是英文字母返回True
+	str.isnumeric()		字符串中只包含数字字符，返回True
+	
+	str.isdecimal()		里面全都是十进制数字返回True
+	
+		区分：
+		isdigit()
+		True: Unicode数字，byte数字（单字节），全角数字（双字节），罗马数字
+		False: 汉字数字
+		Error: 无
+
+		isdecimal()
+		True: Unicode数字，，全角数字（双字节）
+		False: 罗马数字，汉字数字
+		Error: byte数字（单字节）
+
+		isnumeric()
+		True: Unicode数字，全角数字（双字节），罗马数字，汉字数字
+		False: 无
+		Error: byte数字（单字节）
+		
+		结论：以后最好只用isnumeric就行了。。
+		
+	str.islower()
+	如果str中包含英文并且全都是小写则返回True
+	
+	str.isspace()
+	如果只包含空格，则返回True
+	
+	str.istitle()
+	str中如果每个单词首字母都大写其他都小写则返回True
+	
+	str.isupper()
+	所有的字符都是大写的返回True
+	
+	str = 'l love you'
+	str.join('abc') 返回 'al love youbl love youc' #a b c插入进去
+	
+	str.lower()
+	所有大写字母转为小写
+	
+	str.upper()
+	转为大写
+	
+	str.lstrip()
+	去掉字符串所有左边的空格
+	
+	str.rstrip()
+	去掉字符串所有末尾的空格
+	
+	str.partition(sub)
+	这个挺有用的，可以直接分离字符串变成包含3元素的元组
+	str = 'please dont do that'
+	str.partition('dont')
+	结果是：
+	('please ', 'dont', ' do that')
+	（有重复出现的只区分第一个）
+	
+	str.replace('old', 'new', [count])
+	str = 'abcccdeff'
+	str.replace('c', 'x') = 'abxxxdeff'
+	str.replace('c', 'x', 2) = 'abxxcdeff'	#只将前两个c改了
+	
+	str.rfind(sub)
+	类似find()，但是从右边开始找，可以加范围参数
+	
+	str.rindex()
+	类似index()，但是从右边开始找，可以加范围参数
+	
+	str.rpartition()
+	类似partition()
+	
+	str.split()
+	不带参数默认分割空格
+	类似partition，但用的更广！
+	str = 'abcccddefcc111c1'
+	str.split('c') = ['ab', '', '', 'ddef', '', '111', '1']
+	自动生成数列，并且将c抹去，如果连着两个c则生成''
+	str.split('c', 2) = ['ab', '', 'cddefcc111c1']
+	只把前两个c给分割开了
+	
+	str.strip()
+	把前后的空格都删掉
+	str = 's11ssio ooiuss9s'
+	str.strip('s') = '11ssio ooiuss9'
+	则仅把前后的s给去掉，加了s开头如果还是空格就不再删除了
+	
+	str.swapcase()
+	把大小写反过来
+	
+	str.title()
+	str中所有单词的开头变成大写
+	
+	str.translate()
+	str = 'ssbbaabbfutzss3e'
+	str.translate(str.maketrans('s', 'b')) = 'bbbbaabbfutzbb3e'
+	这里把所有s换成了b，是其中一种用法
+	单独返回str.maketrans('s', 'b') = {115: 98}
+	ASCII编码
+	
+	zfill(width)
+	str = 'ssbbaabbfutzss3e'
+	len(str) = 16
+	str.zfill(20) = '0000ssbbaabbfutzss3e'
+	前面填充4个0
+	#这个可以用来整理参差不齐的数据，转化为0之后再切片或者转成空格即可
+	
+17.	字符串的格式化：按照统一的规格去输出字符串
+	（比如不同进制）
+	
+	format函数
+	1.位置函数
+		a = "{0} love {1} {2}"
+		a.format("I", "grace", "very much") = 'I love grace very much'
+		
+	2.关键字参数
+		x = "{a} love {b} {c}"
+		x.format(a = "I", b = "grace", c = "very much") = 'I love grace very much'
+	也可以混合着用，x = "{0} love {b} {c}"，但是数字必须在前面
+	
+	四舍五入定点数
+	'{0:.1f}{1}'.format(27.789, "GB") = '27.8GB'
+	冒号后的.1表示四舍五入到小数点后1位，2就是两位
+	
+18.	字符串操作符
+	%c:格式化字符及其ASCII码
+	'%c' %97 = 'a'
+	'%c%c%c' %(97, 98, 99) = 'abc'
+	'%c %c%c' %(97, 98, 99) = 'a bc'
+	其实就是97 98 99按照'%c'排列的方法合并到''里面去
+	多个数必须加括号
+	
+	'%s' %'i love you' = 'i love you'
+	'abc%s' %'i love you' = 'abci love you'
+	本质上就是替换的过程
+	
+	%d表示数字
+	'%d + %d = %d' %(4, 5, 6) = '4 + 5 = 6'
+	只是做了个替换而已
+	
+	'%f' %27.878 = '27.878000'
+	默认会精确到六位数
+	
+	'%e' %27.878 = '2.787800e+01'
+	
+	m.n这个很重要！
+	'%5.1f' %27.46 = ' 27.5'
+	5表示整个字符串最小宽度是5，.1表示四舍五入到小数点后1位
+	'%6.2f' %27.4665 = ' 27.47'
+	
+	加上-表示左对齐
+	'%-10d' %27.787 = '27        '
+	'%10d' %27.787 = '        27'
+	
+	需要数字前面显示正负号的话，+即可
+	'%+4d' %28.3 = ' +28'
+	
+	前面加上0的话就意味着前面的空格用0填充
+	'%010d' %23.4 = '0000000023'
+	
+19.	转义字符
+	单引号\'
+	同理：\"
+	\n换行
+	\t = tab
+	\v纵向制表符
+	\r = enter
+	\f 换页符
+	\0 表示空字符
+	
+20.	列表，元组，字符串
+	list()生成列表
+	a = list()
+	那么a = []
+	
+	b = 'i love you'
+	b = list(b)
+	b = ['i', ' ', 'l', 'o', 'v', 'e', ' ', 'y', 'o', 'u']
+	把字符串列表了
+	
+	元组也可以通过list转化为list
+	c = (1, 2, 3, 4, 5)
+	c = list(c)
+	c = [1, 2, 3, 4, 5]
+	
+	d = [1, 2, 3, 4, 5]
+	d = tuple(d)		#转化为元组
+	d = (1, 2, 3, 4, 5)
+	
+	str转化为字符串
+	len(d) = 5	#5个元素
+	
+	max()
+	返回一组数最大值，或者一个字符数组的最大ASCII码的字母，比如max(b) = v
+	这里注意，单独的一个字符串也可以max min!
+	比如
+	a = '182848301'
+	max(a) = 8
+	
+	min()
+	同理
+	
+	使用max min的话数据类型必须统一！不能既有数字又有字符串的
+	
+	sum()
+	a = [12, 23, 45, 67]
+	sum(a, 8) = a里面的和加上8
+	
+	sorted()
+	默认从小到大排
+	list(reversed(a))
+	
+	a = [12, 23, 45, 67]
+	list(enumerate(a)) = [(0, 12), (1, 23), (2, 45), (3, 67)]
+	自动编号
+	
+	a = [12, 23, 45, 67, 999, 1298]
+	b = [1, 2, 3, 4, 5, 7]
+	list(zip(a, b))
+	#如果直接输出zip(a, b)会得到<zip object at 0x0000019DF9CAEE88>，需要用list的方法来转变
+	list(zip(a, b)) = [(12, 1), (23, 2), (45, 3), (67, 4), (999, 5), (1298, 7)]
+	#会逐一配对，多余的数字不再管
+	
+21.	函数
+	切割方法
+	定义函数一定要有小括号
+def Myfirstfunction():
+	print('this is my first function')
+	
+def Mysecondfunction(name):
+	print(name + 'i love you')
+	
+	函数的返回值return
+def Mythirdfunction(a, b):
+	return a + b
+	用了return的话是可以直接赋值的，比如axe = Mythirdfunction(1, 4)
+	
+	形参:parameter
+	实参:argument
+	
+def Mythirdfunction(a, b):
+	'i love aaaa'	#这个是文档
+	return a + b	
+	这里定义了一个字符串语句，想调用文档的话Mythirdfunction.__doc__ 会输出 'i love aaaa'
+	写这个是为了让别人更好的理解
+	
+	如果有时候ab在输入的时候忘记顺序了，可以这样：
+	Mythirdfunction(b = 456, a = 123)
+
+	默认值参数
+def Mythirdfunction(a = 1, b = 4):
+	return a + b
+	调用的时候可以直接Mythirdfunction
+	也可以Mythirdfunction(4)
+	这里4就赋值给a了，按顺序来的
+	
+	收集参数：
+	写函数的作者有时候也不知道会有多少个参数的时候可以在参数前面加上*
+def test(*params):
+	print('参数长度是', len(params))	#这里一定是,隔开！！
+	print('第二个参数是', params[1])
+	
+调用：test('小甲鱼', 123, '888')
+	结果：
+	参数长度是 3
+	第二个参数是 123
+	
+如果想收集函数和关键词函数同时用，比如def test(*params, key):
+	那你在写test()的时候必须是写明key = XXX
+	
+Python所有函数都有返回值的，就算没有return，也会返回none
+def back():
+	return [1, 'i lov eyou', 3.14]
+	
+是可以返回一个数组的
+也可以直接return 1, 'i lov eyou', 3.14
+这样返回的就是元组了
+
+
+有一个小点，需要注意：
+函数外面赋值的字符，尽量不要跟函数内部的参数名一致，如果一样的话，并不会报错，而是很容易
+搞不清楚谁调用了谁，很容易逻辑出错。局部变量和全局变量可以重名，因为在不同的栈当中，但是调用要很小心
+
+可以在函数内部访问全局变量，但是不要试图去修改它！
+
+
+
+
+
+
+	
