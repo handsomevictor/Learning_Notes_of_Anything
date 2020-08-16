@@ -567,9 +567,115 @@ def back():
 
 可以在函数内部访问全局变量，但是不要试图去修改它！
 
+如果需要在局部地区更改全局变量，则需要加上global关键字
+a = 10
+def myfun():
+	global a		#global关键字
+	a = 15
+	print(a)
+这个时候再myfun()就打印的是a = 15了
 
+22.	闭包的概念：
+def funx(x):
+	def funy(y):
+		return x * y
+	return funy			#funy本质是函数，所以funx输出的是函数
 
+调用的话：比如：
+i = funx(8)
+type(i) = function
+i(5) = 40
+也可以这么调用：
+funx(5)(8) = 40
 
-
-
+nonlocal的用法：强制转化成非局部变量
+def funx():
+	x = 5
+	def funy():
+		x *= x
+		return x
+	return funy()		#这里局部变量是不可以改变全局变量的，local variable 'x' referenced before assignment
 	
+	如果想引用x*=x，则用nonlocal用法
+def funx():
+	x = 5
+	def funy():
+	    nonlocal x
+		x *= x
+		return x
+	return funy()	
+输出funx() = 25
+
+还有一点，上面的程序funx()中的return funy()和return funy其实都可以，因为return funy的话是返回一个function
+而return funy()是将funy()函数中的return x给直接return出来了
+
+23.	lamba函数
+	匿名函数
+	平面几何的直线方程
+	
+	g = lambda x: x * 5 + 1
+	g(5)就可以直接调用了
+	k = lambda x, y: x + y
+	k(4, 6)
+
+使用Lambda函数就不用费劲命名了
+
+24.	filter()
+	过滤器，可以保留想要的东西
+	默认的话，就把任何非true的内容给过滤掉
+	比如：
+	a = [1, 0, True, False, 1 < 2]
+	list(filter(None, a)) = [1, True, True]		#一定要用List来引用！
+	
+	filter中第一个参数可以设置为过滤的要求
+	比如：
+	筛选出奇数的过滤器：
+def odd(a):
+	return a % 2	#这里odd返回为0的是偶数，返回为1的是奇数，1是true，所以可以自动filter选择（也可以加not选偶数）
+temp = range(10)	#默认即是list类型，不用再list(temp)
+b = filter(odd, temp)
+list(b)		#返回结果是：[1, 3, 5, 7, 9]
+
+25.	filter + lambda方便实现删选奇数
+	list(filter(lambda x: x % 2, range(10))) = [1, 3, 5, 7, 9]
+	偶数的话：
+	list(filter(lambda x: not x % 2, range(10))) = [0, 2, 4, 6, 8]
+	(因为 not 1 = False, not 0 = True)
+	
+26. map()
+	映射：
+	list(map(lambda x: x * 2, range(10))) = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+	每个range(10)中的数据都乘以2输出为list
+	
+27. 递归：函数调用自己
+	python系统默认递归层数是100层，可以手动修改：
+	import sys
+	sys.setrecursionlimit(1000)
+	
+	用递归写阶乘：
+def quant(x):
+	if(x == 1):
+		return 1
+	else:
+		return x * quant(x - 1)
+调用的话直接quant(6) = 720
+	
+	非递归版本：
+def quant(x):
+	result = x
+	for i in range(1, x):
+		result *= i
+	return result
+a = int(input('please input a number'))		#这里int最好加上
+b = quant(a)
+print("%d 的阶乘是 %d" % (a, b))	#这里中间没有逗号！！
+
+12 的阶乘是 479001600
+
+递归效率比较低
+
+28.	
+
+
+
+
