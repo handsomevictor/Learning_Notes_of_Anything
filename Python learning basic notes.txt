@@ -674,7 +674,46 @@ print("%d 的阶乘是 %d" % (a, b))	#这里中间没有逗号！！
 
 递归效率比较低
 
-28.	
+28.	还是递归，做斐波那契
+非递归版本：
+a = []
+def quant(n):
+    n1 = 1
+    n2 = 1
+    n3 = 1
+    a.append(n1)
+    a.append(n2)
+    if n < 1:
+        print('ERROR')
+        return -1
+    while (n - 2) > 0:
+        n3 = n1 + n2		#这里仅仅是把每一个值做了交替！
+        n1 = n2
+        n2 = n3
+        n = n - 1
+        a.append(n3)
+    return n3
+
+result= quant(10)
+if result != -1:
+    print('一共%d只兔子诞生'%result)
+
+输出结果是：一共55只兔子诞生
+a = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+
+递归版本：		#原理是5分为4和3相加，4分为3和2相加
+def feb(n):
+    if n < 1:
+        print("error")
+        return -1
+    if n == 1 or n == 2:
+        return 1
+    else:
+        return feb(n - 1) + feb(n - 2)
+
+result = feb(10)
+print(result)
+
 
 
 
