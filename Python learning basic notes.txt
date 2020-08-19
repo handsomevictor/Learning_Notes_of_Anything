@@ -714,7 +714,371 @@ def feb(n):
 result = feb(10)
 print(result)
 
+29.	汉诺塔做递归
+b = 0
+def hannoi(n, x, y, z):	#xyz是三根针，相当于被移动位，辅助移动位，目标位
+	global b
+	if n == 1:
+		b = b + 1
+		print(x, "-->", z)	#一个片，x直接到z
+	else:
+		b = b + 1
+		hannoi(n - 1, x, z, y)	#将前n-1个盘子从x移动到y上
+		print(x, "-->", z)		#将最底下的盘子从x移动到z上
+		hannoi(n - 1, y, x, z)	#将y上的n-1个盘子移动到z上
+a = int(input('请输入层数'))
+hannoi(a, "X", "Y", "Z")
+打印共执行了多少次，就直接b即可。
+
+30.	字典：
+	字典是映射
+	一个最基本的调用映射的方法：
+	a = ['A', 'B', 'C', 'D']
+	b = ['E', 'F', 'H', 'G']
+	这两个是互相对应的，所以打印b的G可以用a来这么做：
+	print(b[a.index('D')])
+	
+	用字典的方式解决：
+	dic1 = {'A': 'E', 'B': 'F', 'C':'H', 'D':'G'}	#大括号就是字典！有很多键值组和
+	print('口号是', dic1['D'])
+	
+	dict就是字典函数dict(mapping)，注意这里dict的参数只有1个！只能是映射！所以可以将元组伪装成1个参数来赋值进去
+	可以这样：
+	dic1 = dict(((1, 'A'), (2, 'b'), (3, 'C'), (4, 'D'), (5, 'E')))
+	dic1输出是：{1: 'A', 2: 'b', 3: 'C', 4: 'D', 5: 'E'}
+	
+	也可以这样：
+	dic2 = dict(a1 = 'A', a2 = 'B')		#!!!这里一定注意，左边可以是中文，但是一定不能加引号！！这是关键字类型！！
+	dic2 = {'a1': 'A', 'a2': 'B'}
+	
+	dict如果输入了{}里面没有的值，则自动加进去新值，如果输入了原本就有的值，则做一次修改
+	dic2 = {'a1': 'A', 'a2': 'B'}
+	dic2['c1'] = 123		#这里键值都要加引号，如果是关键字的话。
+	dic2['a1'] = 'KKK'
+	
+	此时dic2 = {'a1': 'KKK', 'a2': 'B', 'c1': 123}
+	
+31.	字典其他用法：
+	fromkeys(S[,V])	#创建s:v，v默认是none
+	创建新的字典
+	
+dic1 = {}
+dic1 = dic1.fromkeys((1, 2, 3))	#双括号！#且同时这里一定要赋值更新！不然等下输出dic1的时候还是{}！
+
+dic1 = {1: None, 2: None, 3: None}
+这里V只能有一个元素！
+比如：
+dic1 = {}
+dic1 = dic1.fromkeys((1, 2, 3), ('one', 'two', 'three'))
+dic1 = {1: ('one', 'two', 'three'), 2: ('one', 'two', 'three'), 3: ('one', 'two', 'three')}
+
+dic1 = {}
+dic1.fromkeys(range(10), '赞') = {0: '赞', 1: '赞', 2: '赞', 3: '赞', 4: '赞', 5: '赞', 6: '赞', 7: '赞', 8: '赞', 9: '赞'}
+
+keys代表键，如果想把键都打印出来，则：
+for eachkey in dic1.keys():			#.keys()
+	print(eachkey)
+	
+结果：
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+values()代表值，同理：
+for eachvalue in dic1.values():
+	print(eachvalue)
+	
+#outcome:	
+赞
+赞
+赞
+赞
+赞
+赞
+赞
+赞
+赞
+赞
+
+items()表示项，把每一项都打印出来:
+for eachitem in dic1.items():
+	print(eachvitem)
+结果：
+(0, '赞')
+(1, '赞')
+(2, '赞')
+(3, '赞')
+(4, '赞')
+(5, '赞')
+(6, '赞')
+(7, '赞')
+(8, '赞')
+(9, '赞')
+
+dic1[31] = '赞'
+
+get()方法，减少报错，尤其是调用不存在的值的时候
+dic1.get(32)这就什么都不会返回，因为32个不存在，print出来时None
+
+也可以返回默认值，比如dic1.get(32, '没有这个数！')
+
+dic1.get(5) = '赞',会返回
+
+更快速的办法判断键是否在字典里面，可以用 
+30 in dic1
+返回True就是在里面
+注意这个in 或者not in不能用于值，只能用于键！
 
 
+如果需要清空字典，推荐用.clear()而不是直接a = {}
+因为如果项目复杂，中间有b = a这种情况，
+那么当你a.clear()之后b也会clear掉。但如果仅赋值a = {}
+b依然储存了数据。这对隐私数据存储很不好
+
+同理一个copy()方法
+a = {1:"A", 2:"B", 3:"C"}
+b = a
+c = a.copy()
+此时通过id()查询一下abc，有：
+>>> id(a)
+2446169078104
+>>> id(b)
+2446169078104
+>>> id(c)
+2446169591880
+c是自己复制了一份，所以跟ab没有关系，以后在改变c的话ab不会改变，但是改变b的话a会跟着改变，改变a的话b也会改变！
 
 
+pop():弹出键的值
+popitem():弹出项
+a = {1:"A", 2:"B", 3:"C"}
+a.pop(2) = 'B'
+a = {1: 'A', 3: 'C'}	#B就不见了
+
+pop的话在数组中都是自动弹出最后一个
+a = {1:"A", 2:"B", 3:"C"}
+a.popitem() = (3, 'C')
+a = {1: 'A', 2: 'B'}
+
+
+a.setdefault('小白', 1)
+a = {1: 'A', 2: 'B', '小白': 1}
+没有创建的会自动创建。创建了的会更改值。
+
+update()
+b = {'小黑': 1, '小白': 2}
+a.update(b)
+a = {1: 'A', 2: 'B', '小白': 2, '小黑': 1}
+相当于列表的extend。
+
+
+32.	集合：set
+	a = {1, 2, 3, 4, 5}
+	没有映射的关系的话，用大括号括起来就是集合
+	
+	集合直接会把重复的元素剔除掉！
+	集合没有顺序，不支持索引！
+	不能a[2]这样！
+	
+	set()创建集合
+	set1 = set([1, 2, 3, 4, 5, 5, 4])
+	set1 = {1, 2, 3, 4, 5}
+	
+	去除重复元素简单方法：
+	num1 = list(set(num1))
+	#但是这样是不能保证原来的顺序！！！
+	
+	集合也可以用in not in来访问
+	add(), remove()
+	集合只能用add()来添加元素！
+	set1.add(123)
+	set1.remove(234)
+	
+	
+	不可变集合：frozenset
+	a = frozenset([1, 2, 3, 4, 5])
+	a.add(11)	#这里会报错，因为不能添加！
+	
+33.	用python来进行打开文件的操作:
+	open()
+	不同的打开模式：
+	'r':只读方式
+	'w':写入文件，会覆盖已存在的文件
+	'x':如果文件已经存在，使用此模式打开会发生异常
+	'a':以写入模式打开，如果文件存在，则在末尾追加
+	'b':二进制模式打开
+	't':文本模式打开
+	'+':可读写模式，可以添加到其他模式中
+	如果打开一个不存在的文件，则必须是w才能创建新文件
+	默认是r和t
+	
+	
+	f = open('C:\\Users\\handsomevictor\\Desktop\\股票相关\\2020.8.17.txt')
+	这里一定要用引号引起来！！！
+	
+	文件执行操作：
+	f.close()关闭文件
+	f.read(size = -1)读取size个字符，当为给定或者size是负数时候，读取剩余所有字符，然后作为字符串返回
+	f.readline()以写入模式打开，如果文件存在则在末尾追加写入
+	f.write(str)将字符串写入文件
+	f.writelines(seq)像文件写入字符串序列seq
+	f.seek(offset, from)在文件中移动指针，从from(0代表起始位置，1代表当前位置，2代表文件末尾)偏移offset个字节
+	f.tell()返回当前在文件中的位置
+	
+	注意，使用完文件要记住close()不然可能不会自动保存
+	
+	f = open('C:\\Users\\handsomevictor\\Desktop\\股票相关\\2020.8.17.txt', 'r',encoding='UTF-8')
+	注意实际操作中，一定要加'r'和后面的UTF-8，不然中文的显示不出来
+	
+	注意！这是我一点一点摸索的！
+	f.read()完了之后，指针是会到最后一个位置的！
+	f.的这以上的所有操作，只要涉及读取，读完之后都会改变指针位置的。
+	所以需要将指针复位。
+	f.seek(0,0)，这样就从0点开始复位了。
+	想知道现在指针在哪里，直接就f.tell()即可
+	
+	a = list(f)的话，会自动的把每一行转变为一个数组中的元素
+	但是要注意，这里list(f)只会从指针在f中的位置开始到结尾。
+	
+	需要将list中的打印出来，效率高：
+	for each_line in f:
+		print(each_line)
+	（这样会原本换行的会又换一次行）
+	
+	！！！！！！！！！！！！！！！！！！！
+	文件的写入：
+	确保已经是'w'或者'a'
+	直接f.write('\nwerwerwer')就会直接添加到末尾
+	但是要注意，这个时候一定要f.close()
+	否则不会直接保存，不能直接f.read()
+	另外，下一次f.read()之前，一定要确保open的时候里面是a+或者w+，不然是不可以read的！！！！！
+	
+34.	将文件中的数据进行分割等。
+	比如有txt文件是这样内容：
+A:the first line
+B:the second line
+A:the third line
+-----------
+C:the fourth lineasdasdasd
+-------
+D:i dont like yuou
+E:my stock price is 12000
+	
+	按照---进行分割，然后单独储存成txt
+	
+	这是个失败的举例。。详见66.py
+	
+35.	模块
+	Operating System模块
+	这个是让py在不同的环境中都能适用的一个方法
+	
+>>> import os		#先import
+>>> os.getcwd()
+'C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python37_64'
+	返回当前工作目录，py的安装地方
+	
+os.chdir('C:\\Users\\handsomevictor\\Desktop\\python IDLE')	改变当前目录
+os.listdir()		列举所在路径中的文件名，列举之后是以数组的形式存在！！
+os.mkdir('C:\\Users\\handsomevictor\\Desktop\\python IDLE\\A')				创建文件夹！只能是文件夹，不能是文件！
+os.remove('C:\\Users\\handsomevictor\\Desktop\\python IDLE\\A\\a.txt')		删除文件！不能是目录！！
+os.rmdir('C:\\Users\\handsomevictor\\Desktop\\python IDLE\\A')				删除目录！如果目录中有内容则无法直接删除全部目录
+os.removedirs()	递归删除目录，从子目录到父目录尝试逐层删除，除非遇到非空抛出异常
+os.rename(old, new)	重新命名
+
+os.system('cmd')	os.system()括号里加上windows shell里面的命令即可，比如mspaint，calc
+
+os.curdir	这不是函数，这个指代当前目录，相当于'.'
+用法：获取当前目录下的文件内容：os.listdir(os.curdir) (这个等同于os.listdir('.')，但是更规范，不容易错
+os.pardir	指代上一级目录，相当于'..'
+
+
+os.path方法，里面有挺多平常用不到的但是在大规模数据里面能用到的方法。。
+os.path.basename(r'C:\Users\handsomevictor\Desktop\python IDLE\第一个小游戏.py')	#返回的是去掉路径之后的纯文件名
+	这个返回的就是：'第一个小游戏.py'
+os.path.dirname(r'C:\Users\handsomevictor\Desktop\python IDLE\第一个小游戏.py')		#返回的是路径名，去掉文件名
+	这个返回的就是：'C:\\Users\\handsomevictor\\Desktop\\python IDLE'
+	这个返回的路径可以配合listdir来直接提取当前目录下其他文件
+	
+os.path.join()	#是组成路径的方法，但是如果要加上盘符，则需要加\\，比如：
+	os.path.join('C:\\', 'A', 'B') = 'C:\\A\\B'
+	os.path.join('A', 'B', 'C') = 'A\\B\\C'
+	
+os.path.split('')	#这个split是会将路径分成路径和文件名两部分的，但是注意如果只是纯路径，则也会将最后一部分文件名单独分割出来
+	os.path.split('C:\\A\\B\\C\\D\\sexy.avi') = ('C:\\A\\B\\C\\D', 'sexy.avi')
+	os.path.split('C:\\A\\B\\C\\D') = ('C:\\A\\B\\C', 'D')
+	os.path.splitext('C:\\A\\B\\C\\D\\sexy.avi') = ('C:\\A\\B\\C\\D\\sexy', '.avi')
+		这里用到搜索文件类型里面还是很好用的，比如a = list(os.path.splitext()), b[1]就能返回这个后缀名
+os.path.getsize(file)	#返回尺寸
+os.path.getatime(file)	#返回这个文件的最近访问时间
+os.path.getctime(file)	#返回这个文件的最近创建时间
+os.path.getmtime(file)	#返回这个文件的最近修改时间
+	这三个可用time模块的gmtime()或者localtime()来换算！gm是返回格林尼治时间，localtime是返回当地时间！
+	import time
+	a = time.gmtime(os.path.getatime())
+		会返回一个这种玩意：time.struct_time(tm_year=2020, tm_mon=8, tm_mday=10, tm_hour=4, tm_min=25, tm_sec=35, tm_wday=0, tm_yday=223, tm_isdst=0)
+		想调用的话直接：a.tm_year = 2020就行了
+
+os.path.exists(path)	判断路径或文件是否存在
+os.path.isabs(path)		判断路径是否为绝对路径
+isdir 
+isfile
+islink
+samefile(path, path)	判断两个路径是否指向同一个文件
+
+36. 将列表，字典等转化为二进制文件，就可以很好的做转变
+	pickle模块
+
+import pickle
+my_list = [1, 2, 3, 3.45, [111, 455]]	#这里希望把这个列表保存成文件，永久保存
+pickle_file = open('my_list.pkl', 'wb')		#这里一定要wb,写入+二进制
+pickle.dump(my_list, pickle_file)			#这个是将文本输入进去
+pickle_file.close()							#这个关闭一定要记得写！不然保存不了！
+这样运行完就直接创建了my_list.pkl			#这里这个pkl文件不能用txt打开，因为打不开，是二进制
+
+读取：load
+pickle_file = open('my_list.pkl', 'rb')		#rb是读取二进制文件
+my_list2 = pickle.load(pickle_file)			#load(file_name)，此时这个my_list2已经是原本的my_list了！就是数组！
+print(my_list2)
+#这样就可以读出来了
+
+
+37.	异常处理：
+	在出现异常的时候利用Py内部机制来直接处理掉
+	
+	AssertionError	断言语句（assert）失败	#使用assert方法判断的时候失败
+	AttributeError	尝试访问未知的对象属性
+	
+	记住也可以用.get()来访问字典中不存在的key，因为什么都不会返回
+	
+38.	try语句，任何在try里面出现的异常都会被检测到，然后根据你的想法来进行操作
+	
+try:
+	sum = 1 + '1'						#TypeError类型
+	a = open('why am i a txt file')		#文件是不存在的
+	print(a.read())
+except OSError as reason:
+	print('your file does not exist!' + str(reason))	#这样的话用户体验很好	#一定要把reason给str了！
+except TypeError as reason:
+	print('the sum you typed is not matching the type!' + str(reason))
+finally:								#无论如何都会执行以下代码，无论错不错都应该执行的
+	#一般finally在写入文件的操作中都会加入.close()
+
+
+	1.这样的输出结果是：your file does not exist![Errno 2] No such file or directory: 'why am i a txt file'
+	2.输出结果: the sum you typed is not matching the type!unsupported operand type(s) for +: 'int' and 'str'
+	注意一下，如果是sum在前则只会返回第二个typeerror类型！
+	
+	try语句一旦检测到异常，则剩下的语句不会执行的！！！除非加入了finally，但加入了finally也是从错误到finally中间不会执行
+
+也可以一起写:
+	except (OSError, TypeError):
+	
+39.	
+	
