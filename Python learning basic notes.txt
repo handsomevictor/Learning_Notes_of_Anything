@@ -1080,5 +1080,73 @@ finally:								#无论如何都会执行以下代码，无论错不错都应该
 也可以一起写:
 	except (OSError, TypeError):
 	
-39.	
+39.	else其他功能
+	else和while
+	while XX:
+		if...
+		break
+	else:
+		XX...
 	
+	这里else就是当while里面的每一个都不成执行的时候才会去执行
+	
+	for语句类似
+	
+	
+	try也可以加入else！
+try:
+	int('abc')
+except ValueError as reason:
+	print('wrong!' + str(reason))
+else:
+	print('no problem!')
+意思是当except不执行的时候就会执行下面的else!
+
+40. with语句
+	不用考虑文件关闭的问题
+	
+try:
+	with open('test.txt', 'w') as f:		#这里with开头的话，就不需要考虑最后的创建文件之后的关闭问题了！
+	for each_line in f:
+		print(each_line)
+except OSError as reason:
+	print('error!' + str(reason))
+
+
+41.	图形用户界面入门:GUI		#这里安装easygui的时候有小插曲！明明安装成功，但是却不能idle里面import！这是因为idle的版本和python的版本不一致!!!
+	import easygui
+	easygui.msgbox('i loe yuou ')
+	
+	也可以from easygui import *	#但是这样会覆盖同名的方法！
+	那这样的话就可以直接写：msgbox('')了！！
+	
+	from easygui import as g
+	
+easygui的一个小项目:
+import easygui as g
+import sys
+
+while 1:
+	g.msgbox('welcome to the world of victor')
+	msg = 'which girl do you want?'
+	title = 'choose a girl'
+	choices = ['grace', 'shirley', 'winnie']
+	
+	choice = g.choicebox(msg, title, choices)
+	
+	g.msgbox('your choice is ' + str(choice))
+	
+	msg = 'want to play it more?'
+	title = 'please choose'
+	
+	if g.ccbox(msg, title):
+	    pass		#user choose continue
+	else:
+        g.msgbox('huh, you dont want girl right?')
+	    sys.exit(0)
+
+注意：如果idle上运行不了easygui，那就换个编辑器就行了！
+
+42. easygui整体介绍和用法：
+	
+
