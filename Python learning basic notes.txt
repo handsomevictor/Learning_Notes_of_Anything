@@ -1140,13 +1140,534 @@ while 1:
 	title = 'please choose'
 	
 	if g.ccbox(msg, title):
-	    pass		#user choose continue
+	    pass			#user choose continue
 	else:
         g.msgbox('huh, you dont want girl right?')
-	    sys.exit(0)
+	    sys.exit(0)		#退出
 
 注意：如果idle上运行不了easygui，那就换个编辑器就行了！
 
 42. easygui整体介绍和用法：
-	
+	g.msgbox(msg="我一定要学会编程！", title="标题部分", ok_button="加油")
+		这是三部分的messagebox的写法
 
+	import sys
+	import easygui as g
+	if g.ccbox("亲爱的还玩吗?",choices=("还要玩！","算了吧")):		#注意这里ccbox只能添加两个选项！！其中第一个返回1，第二个返回0
+		g.msgbox("还是不玩了，快睡觉吧！")
+	else:
+		 sys.exit(0)
+
+	a = g.buttonbox(msg="你喜欢下面哪种水果?", title="", choices=("西瓜","苹果","草莓"))
+		可以显示带有3个button的messagebox
+		a返回的是你选择的choice
+	
+	类似的：
+	a = indexbox(msg='Shall I continue?', title=' ', choices=('Yes', 'No'), image=None) 
+		选择第一个yes的话返回0，否则1
+	b = boolbox(msg='Shall I continue?', title=' ', choices=('Yes', 'No'), image=None) \
+		选择第一个yes的话返回1，否则0
+
+	a = g.multchoicebox(msg="请选择你爱吃哪些水果?",title="",choices=("西瓜","香蕉","苹果","梨"))
+		下面相加多少选项都可以
+	
+	k = enterbox(msg='Enter something.', title=' ', default='', strip=True, image=None, root=None)
+		默认返回的值会自动去除首尾的空格，如果需要保留首尾空格的话请设置参数 strip=False
+	
+	m = g.integerbox(msg="请输入您的得分",title="分数计",lowerbound=0,upperbound=100)
+		为用户提供一个简单的输入框，用户只能输入范围内（lowerbound参数设置最小值，
+		upperbound参数设置最大值）的整型数值，否则会要求用户重新输入。
+	
+	#多次输入
+	msg = "请填写一下信息(其中带*号的项为必填项)"
+	title = "账号中心"
+	fieldNames = ["*用户名","*真实姓名","固定电话","*手机号码","QQ","*Email"]
+	fieldValues = []
+	fieldValues = g.multenterbox(msg, title, fieldNames)
+	#print(fieldValues)
+	while True:
+		if fieldValues == None :
+			break				#break仅Break掉这个if
+			errmsg = ""
+		for i in range(len(fieldNames)):
+			option = fieldNames[i].strip()
+			if fieldValues[i].strip() == "" and option[0] == "*":
+				errmsg += ("【%s】为必填项   " %fieldNames[i])
+		if errmsg == "":
+			break
+		fieldValues = g.multenterbox(errmsg,title,fieldNames,fieldValues)
+	print("您填写的资料如下:%s" %str(fieldValues))
+
+	
+	passwordbox()
+	passwordbox() 跟 enterbox() 样式一样，不同的是用户输入的内容用"*"显示出来，返回用户输入的字符串：
+	msg = "请输入你的密码"
+	user_password = g.passwordbox(msg)
+	print(str(user_password))
+	
+	multpasswordbox()
+	只有最后一个输入框显示为密码的形式（"*"）
+	msg = "请输入用户名和密码"
+	title = "用户登录接口"
+	user_info = []
+	user_info = g.multpasswordbox(msg,title,("用户名","密码"))
+	print(user_info)
+	
+	diropenbox()
+	msg = '选择一个文件，将会返回该文件的完整的目录'
+	title = '文件选择对话框'
+	default = ''		#这里可以是空的，如果不是空的，就默认从这里作为起点
+	full_file_path = g.diropenbox(msg,title,default)
+	print('选择的文件的完整的路径为：'+str(full_file_path))
+	
+43.	对象 = 属性 + 方法
+	class类对象
+
+class Turtle:
+    color = 'green'
+    height = 12
+    def climb(self):
+        print('I am climbing')
+        return '123'
+    def rape(self):
+        print('I am being raped')
+
+在调用的时候，直接tt = Turtle()	#这样一个对象就生成了
+tt.color	#返回green
+b = tt.climb()	#打印i am climbing
+print(b)		#打印b的话就打印了123
+
+面向对象：OO = object oriented
+面向对象：封装 + 继承 + 多态
+
+class Mylist(list):		#class后直接括号加类型那就是创建的类型
+    pass
+a = Mylist()
+b = a + (b33)
+print(b)	#Mylist里面直接创建了一个新的空的list
+
+多态的话，就是不同的class里面都有同一个名字的方法，比如def fun(self)这样的，则可以同时存在！！A().fun()
+	
+class Ball:
+	def setName(self, name):
+		self.name = name
+	def kick(self):
+		print('I am %s, who kicked me!' % self.name)
+a = Ball()
+b = Ball()
+a.setName('ballA')		#setName了之后系统就知道self.name是什么了
+b.setName('ballB')
+
+a.kick() = I am ballA, who kicked me!
+b.kick() = I am ballB, who kicked me!
+类在定义的时候，self在第一个是默认的要求，记住就行
+
+44.	__init__(self)
+	构造函数
+	用上面那个例子：
+class Ball:
+	def __init__(self, name):	#这样的话就可以直接Ball完了之后直接传参数了
+		self.name = name
+	def kick(self):
+		print('I am %s, who kicked me!' % self.name)
+a = Ball('ballA').kick() 	# = I am ass, who kicked me!
+b = Ball('ballB').kick()
+
+共有和私有：
+class中只需要将变量前面加上__就可以变成私有的了
+class A:
+	__name = 'asd'
+	def getName(self):			#再强调一次，这个self必不可少！！
+		return self.__name
+外部不可以直接访问__name，只能内部进行访问，外部可以访问的是getName方法
+a = A()
+a.getName()
+
+但是事实上，可以这样直接在外部访问到name：！！！！！！！！！！！！！！！！！！！！！！
+a._A__name
+所以python的私有是伪私有！
+
+
+45.	继承
+	子类可以继承父类的任何属性和方法：
+class Parent:
+	def hello(self):
+		print('i am parent')
+class Child(Parent):
+	pass	#该处的 pass 便是占据一个位置，因为如果定义一个空函数程序会报错，
+			#当你没有想好函数的内容是可以用 pass 填充，使程序可以正常运行。
+
+这里a = Child()
+a.hello()也是可以的！！
+如果字类的方法覆盖了父类的方法，则自动覆盖了！！
+
+有一堆鱼的例子：
+import random as r
+
+class Fish:
+	def __init__(self):
+		self.x = r.randint(0, 10)
+		self.y = r.randint(0, 10)
+	def move(self):
+		self.x -= 1
+		print('我的位置是:', self.x, self.y)
+class Goldfish(Fish):	#只需要继承生成的位置和移动就行了
+	pass
+class Selmon(Fish):
+	pass
+class Shark(Fish):
+	def __init__(self):
+		Fish.__init__(self)		#必须要加这句话！因为如果不加的话就自动覆盖了父类的init函数了！就没有xy了！
+		self.hungry = True		#这里Fish.__init__(self)中的self不是父类的self，而是子类的！
+	def eat(self):
+		if self.hungry:
+			print('eating now...')
+			self.hungry = False
+		else:
+			print('i am full')
+			
+也可以使用super函数！更好！
+class Shark(Fish):
+	def __init__(self):
+		super().__init__()		#这里直接写super就行，会自动的寻找父类的！！！会自动给寻找Shark()这个括号中的父类的！
+		self.hungry = True
+	def eat(self):
+		if self.hungry:
+			print('eating now...')
+			self.hungry = False
+		else:
+			print('i am full')
+
+也支持多重继承！
+class C(Base1, Base2):
+	pass
+可以就多重继承了，但是这里可能出现bug，因为容易导致很混乱
+
+46.	组合
+池塘里面有x个乌龟有y个小鸟
+class Turtle:
+	def __init__(self, x):
+		self.num = x
+class Bird:
+	def __init__(self, x):
+		self.num = x
+class Pool:
+	def __init__(self, x, y):
+		self.turtle = Turtle(x)
+		self.bird = Bird(y)
+		
+	def print_num(self):
+		print('池塘里一共有%d只乌龟，%d只鸟' %(self.turtle.num, self.bird.num))		#注意这里是self.turtle.num!!
+组合就是把类放到一个新类里面，就不需要继承了。
+组合用于横向的，一般没有什么大的相关性的类在一起的时候，就可以用组合。
+
+47.	属性的名字与方法名相同的话，属性会覆盖掉方法：
+class C:
+	def x(self):
+		print('123')
+
+a = C()
+a.x()这里会输出123
+但如果你这样：
+a.x = 122	#这里相当于直接定义了一个新的属性x，然后直接赋值为122，python不需要单独的声明变量！
+这是x就与x()重名，就不能再用x()了！！
+
+绑定：必须def的时候要有self
+如果有：
+class C:
+	def printXY(self, x, y)
+
+dd = C()
+#此时dd.__dict__可以看到，这个dd就是个空的字典{}
+dd.printXY(1, 5)，这里系统自动默认为: dd.printXY(dd, 1, 5)
+所以只有当写了self的时候才能自动的把dd与1, 5绑定起来！
+
+所以！当一个class中有def之后，这个class CC被del CC了之后，a = CC()这样实例化类就不可以了，但是原本已经实例化好的
+那部分比如之前已经有b = CC()这样的，依然可以调用！也就是b.printXY(1, 5)依然可以用！除非关闭程序了内存释放了
+但是如果def里面没有self，那就不能再del之后再这么调用了
+
+48.	与类相关的BIF
+issubclass(class, classinfo)
+
+class A:
+	pass
+class B(A):
+	pass
+那么：
+issubclass(B, A) = True，因为B是A的字类，但是这个是宽松的检查，因为issubclass(B, B) = True
+这里classinfo可以是元组，里面是一串class
+所有类的基类是：object
+所以issubclass(B, object) = True
+
+
+isinstance(object, classinfo)
+检查实例对象是否属于classinfo这个类的
+object如果不是实例对象，那么永远返回False，classinfo如果不是元组如果不是类，那么Typeerror
+isinstance(a, c) 	#其中c = (A, B)
+这样可以！而且A如果是B的子类，那么a, B，也可以是True!
+
+
+hasattr(object, name)	#测试对象里面是否有指定的属性
+class A:
+    k = 10
+a = A()
+hasattr(a, 'k') = True！这里必须要用字符串形式，不然不认识！
+
+
+getattr(object, name)	#返回某个类中的属性的值
+getattr(a, 'k') = 10
+getattr(a, 'q', 'do not exist!')	#返回'do not exist!'，这里第三个选项就是当没有这个q的时候就会返回这个东西！
+
+
+setattr(object, name, value)		#给object赋值
+setattr(a, 'q', '1233321')			#这样就创建了一个属性q，并赋值1233321
+再尝试getattr：
+getattr(a, 'q', 'not exist')
+
+
+delattr(a, 'q')	#删除指定的属性，如果不存在就attributeerror
+
+49.	
+property()	其实听常用，但看个人习惯
+class C:
+	def __init__(self, size = 10):
+		self.size = size
+	def getSize(self):
+		return self.size
+	def delSize(self):
+		del self.size
+	def setSize(self, size):
+		self.size = size
+c = property(getSize, setSize, delSize)
+
+那么这个时候，c1 = C()
+c1.size 会返回10
+c1.c 也会返回10
+c1.c = 15 则会将size设置成15
+del c1.size 就删除了
+这里的property就是给了一个简便的写法而已，当代码属性的名字改变之后，就不用再全部大改了
+
+50.	__init__里面绝对返回的是none，绝对不能返回任何东西！
+	只有当给一个方法进行初始化的时候才需要用到__init__
+	__del__垃圾回收
+	比如：
+class C:
+	def __init__(self):
+		print('__init__was referred to!')
+	def __del__(self):
+		print('__del__was referred to!')
+
+c1 = C()
+这个时候直接就会打印__init__was referred to!
+然后c2 = c1, c3 = c2
+然后del c2, del c1不会有反应
+最后del c3的时候会返回__del__was referred to!，这是因为在del最有一个实例变量的时候会返回__del__的东西
+
+51.	万物皆对象，做个小恶作剧：
+class New_int(int):		#这里括号里一定是一种类型，比如int
+	def __add__(self, other):				#这里的_add__就是+加号！
+		return int.__sub__(self, other)		#这里一定不能写self + other，不然就会a + b和self + other无限递归
+	def __sub__(self, other):
+		return int.__add__(self, other)
+这样：
+a = New_int(5)
+b = New_int(2)
+a + b 就是-3
+a - b就是7了
+这就是自己写代码，不想调用别人的方法
+
+比如重新定制print(a)的结果：
+class A:
+	def __str__(self):
+		return 'i love you'
+		
+这样的话a = A()
+print(a)就是那句话了
+
+52.	定制一个计时器的类，start stop
+使用time的localtime来获取当前时间
+
+53.	numpy basics
+import numpy as np
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+a * b = array([ 4, 10, 18])
+
+bim = np.array([1, 2, 3, 4, 5, 6, 7, 8])
+bim > 5 
+	outcome: array([False, False, False, False, False,  True,  True,  True])
+bim[bim > 5]
+	outcome: array([6, 7, 8])
+	#只有符合条件的会被选出来
+
+array这里里面的东西都得是同一种类型的，如果是int则都是int，如果int中混入一个str，则所有自动都变成str
+
+baseball = [[180, 78.4], [215, 102.7], [210, 98.5], [188, 75.2]]
+a = np.array(baseball)
+a[1:, 0:1]		#第一个参数是list中的list的大的范围，第二个是最小的list中的小范围
+	outcome: array([[215.], [210.], [188.]])
+a.shape
+	outcome:	(4, 2)	#这个shape输出第一个是大的list数量，第二个是小list包含的个数
+	
+54. matplotlib foundamentals
+plt.plot(x, y)
+plt.scatter(x, y)
+plt.xcale('log') 	#change the x-axis into a log version
+
+datacamp one exercise:
+# Scatter plot
+plt.scatter(x = gdp_cap, y = life_exp, s = np.array(pop) * 2, c = col, alpha = 0.8)		#alpha is the transparency, c is the color
+
+# Previous customizations
+plt.xscale('log') 
+plt.xlabel('GDP per Capita [in USD]')
+plt.ylabel('Life Expectancy [in years]')
+plt.title('World Development in 2007')
+plt.xticks([1000,10000,100000], ['1k','10k','100k'])
+
+# Additional customizations
+plt.text(1550, 71, 'India')			#this is to set the place where the text is, the first 2 is the xy number on the graph!
+plt.text(5700, 80, 'China')
+
+# Add grid() call
+plt.grid(True)		#网格线
+
+# Show the plot
+plt.show()
+
+55.	python dictionnary
+a = {1: 2, 3: 4, 6: 7}
+print(a.keys())
+print(a.values())	#to disparately print out the keys and values in a dict
+
+each key in dict is unique! so when you a['qwe'] = 123 in a dict a, you add the qwe: 123 pair in the dict
+
+del(europe['australia'])	 so that you deleted the australia pair
+
+56. pandas
+DataFrame
+--------------
+import pandas as pd
+
+# Build cars DataFrame
+names = ['United States', 'Australia', 'Japan', 'India', 'Russia', 'Morocco', 'Egypt']
+dr =  [True, False, False, False, True, True, True]
+cpc = [809, 731, 588, 18, 200, 70, 45]
+cars_dict = { 'country':names, 'drives_right':dr, 'cars_per_cap':cpc }
+cars = pd.DataFrame(cars_dict)
+print(cars)
+
+# Definition of row_labels
+row_labels = ['US', 'AUS', 'JPN', 'IN', 'RU', 'MOR', 'EG']
+
+# Specify row labels of cars
+cars.index = row_labels			#the first column was not the number from 0 to x anymore, but row_labels
+
+# Print cars again
+print(cars)
+
+----------------
+# Import pandas as pd
+import pandas as pd
+
+# Fix import by including index_col
+cars = pd.read_csv('cars.csv', index_col = 0)	#here index_col = 0 to make the first column not 0 to x anymore
+
+# Print out cars
+print(cars)
+
+57.	pandas: loc() & iloc()
+
+import pandas as pd
+cars = pd.read_csv('cars.csv', index_col = 0)
+
+# Print out country column as Pandas Series
+print(cars['country'])
+
+#this result is 
+    US     United States
+    AUS        Australia
+    JPN            Japan
+    IN             India
+    RU            Russia
+    MOR          Morocco
+    EG             Egypt
+    Name: country, dtype: object	#this sentence cannot be removed
+
+# Print out country column as Pandas DataFrame
+print(cars[['country']])			#use double square bracket!
+
+#the result is:
+				country
+    US   United States
+    AUS      Australia
+    JPN          Japan
+    IN           India
+    RU          Russia
+    MOR        Morocco
+    EG           Egypt
+
+# Print out DataFrame with country and drives_right columns
+print(cars[['country', 'drives_right']])
+
+outcome:
+               country  drives_right
+    US   United States          True
+    AUS      Australia         False
+    JPN          Japan         False
+    IN           India         False
+    RU          Russia          True
+    MOR        Morocco          True
+    EG           Egypt          True
+
+the above dataframe can be sliced randomly with square brackets:
+# Print out fourth, fifth and sixth observation
+print(cars[3:6])
+         cars_per_cap  country  drives_right
+    IN             18    India         False
+    RU            200   Russia          True
+    MOR            70  Morocco          True
+---------------------------
+# Import cars data
+import pandas as pd
+cars = pd.read_csv('cars.csv', index_col = 0)
+
+# Print out observation for Japan
+print(cars.iloc[2])				#use single square bracket to get a Series
+
+# Print out observations for Australia and Egypt
+print(cars.iloc[[1, 2], [1, 6]])		#use double square bracket to get a DataFrame
+
+outcome:
+         cars_per_cap    country  drives_right
+    AUS           731  Australia         False
+    EG             45      Egypt          True
+	
+-------------------
+# Import cars data
+import pandas as pd
+cars = pd.read_csv('cars.csv', index_col = 0)
+
+#csv:
+     cars_per_cap        country  drives_right
+US            809  United States          True
+AUS           731      Australia         False
+JPN           588          Japan         False
+IN             18          India         False
+RU            200         Russia          True
+MOR            70        Morocco          True
+EG             45          Egypt          True
+
+# Print out drives_right value of Morocco
+print(cars.loc[['MOR'], ['drives_right']])		#when you use loc and iloc, be careful of the sequence of the 2 arguments!
+
+# Print sub-DataFrame
+print(cars.iloc[[4, 5], [1, 2]])
+
+outcome:
+     country  drives_right
+RU    Russia          True
+MOR  Morocco          True
+
+
+58.	
