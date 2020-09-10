@@ -1670,4 +1670,480 @@ RU    Russia          True
 MOR  Morocco          True
 
 
-58.	
+58.	python can compare two strings:
+'carl' < 'chris'
+outcome: True
+
+59. numpy logical_or/ and/ not
+
+import numpy as np
+my_house = np.array([18.0, 20.0, 10.75, 9.50])
+your_house = np.array([14.0, 24.0, 14.25, 9.0])
+
+# my_house greater than 18.5 or smaller than 10
+print(np.logical_or(my_house > 18.5, my_house < 10))		#in this way, numpy can directly select which ones is u want.
+
+# Both my_house and your_house smaller than 11
+print(np.logical_and(my_house < 11, your_house < 11))
+
+--------------------
+cars:
+     cars_per_cap        country  drives_right
+US            809  United States          True
+AUS           731      Australia         False
+JPN           588          Japan         False
+IN             18          India         False
+RU            200         Russia          True
+MOR            70        Morocco          True
+EG             45          Egypt          True
+
+
+# Extract drives_right column as Series: dr
+dr = cars['drives_right']
+
+# Use dr to subset cars: sel
+sel = cars[dr]
+
+outcome:
+         cars_per_cap        country  drives_right
+    US            809  United States          True
+    RU            200         Russia          True
+    MOR            70        Morocco          True
+    EG             45          Egypt          True
+
+
+print(cars[np.logical_and(cars['cars_per_cap'] < 500, cars['cars_per_cap'] > 100)])
+# in this way the 2 dimensional filtering was completed
+
+59.	
+areas = [11.25, 18.0, 20.0, 10.75, 9.50]
+
+for index, area in enumerate(areas) :			#here you need to print the index and the content, so must use the enumerate()!
+    print("room " + str(index) + ": " + str(area))
+
+europe = {'spain':'madrid', 'france':'paris', 'germany':'berlin', 'austria':'vienna' }
+for a, b in europe.items():						#this is items(), there is an 's' here
+    print('the capital of ' + a + ' is ' + b)
+
+----------------------------------------
+array([[ 74, 180], [ 74, 215], [ 72, 210])
+										#if u want to print out every number, use nditer()
+for x in np.nditer(np_baseball):				#np.nditer(np_baseball)
+    print(x)
+
+----------------------------------------
+cars.csv:
+     cars_per_cap        country  drives_right
+US            809  United States          True
+AUS           731      Australia         False
+JPN           588          Japan         False
+IN             18          India         False
+RU            200         Russia          True
+MOR            70        Morocco          True
+EG             45          Egypt          True
+
+for a, b in cars.iterrows():
+    print(a)
+    print(b)
+
+	#outcome:	#shown in this way for all contents
+    US
+    cars_per_cap              809
+    country         United States
+    drives_right             True
+    Name: US, dtype: object
+	
+for lab, row in cars.iterrows() :
+    print(lab + ': ' + str(row['cars_per_cap']))		#because lab represents the first column, and row is the rest serie
+
+	#outcome:
+	US: 809
+    AUS: 731
+    JPN: 588
+
+	#add an column named COUNTRY: use directly the loc[] function
+for x, y in cars.iterrows():
+    cars.loc[x, 'COUNTRY'] = y['country'].upper()		#very important, 'loc' can add an column! but not very efficient
+	
+	#outcome:
+     cars_per_cap        country  drives_right        COUNTRY
+US            809  United States          True  UNITED STATES
+AUS           731      Australia         False      AUSTRALIA
+JPN           588          Japan         False          JAPAN
+IN             18          India         False          INDIA
+RU            200         Russia          True         RUSSIA
+MOR            70        Morocco          True        MOROCCO
+EG             45          Egypt          True          EGYPT	
+	
+cars['COUNTRY'] = cars['country'].apply(str.upper)		#very important, and efficient, also add an column 'COUNTRY', same result
+	(# also you can type like cars['country'].apply(len)) etc
+	
+	
+seed()，随机数种子对后面的结果一直有影响。同时，加了随机数种子以后，后面的随机数组都是按一定的顺序生成的。	
+	# if you set up a seed 1, then everytime when you type seed(1), you will get a same string of random numbers, 
+	# so that your experiments are reproducible
+	
+rand() generates num of 0 - 1
+randint(1, 6) generates 1 - 5
+	# you can use np.random.randint(1, 5) in numpy package!
+
+# if u want to itinerate 10 times, use 'for a in range(10)'
+
+
+60.	
+plt.cla() # 清除axes，即当前 figure 中的活动的axes，但其他axes保持不变。
+plt.clf() # 清除当前 figure 的所有axes，但是不关闭这个 window，所以能继续复用于其他的 plot。
+plt.close() # 关闭 window，如果没有指定，则指当前 window。
+	
+# this is important in visulization
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Simulate random walk 250 times
+all_walks = []
+for i in range(250) :
+    random_walk = [0]
+    for x in range(100) :
+        step = random_walk[-1]
+        dice = np.random.randint(1,7)
+        if dice <= 2:
+            step = max(0, step - 1)
+        elif dice <= 5:
+            step = step + 1
+        else:
+            step = step + np.random.randint(1,7)
+
+        # Implement clumsiness				# this is very useful! if there is a 0.1% chance of accident, use rand() to include this situation
+        if np.random.rand() <= 0.001 :
+            step = 0
+
+        random_walk.append(step)
+    all_walks.append(random_walk)
+
+# Create and plot np_aw_t
+np_aw_t = np.transpose(np.array(all_walks))	# here transpose is to make the matrix more visulisable 
+plt.plot(np_aw_t)
+plt.show()
+
+ends = np_aw_t[-1, :]						#in np.array, you can use things like [1, 2: 4] to slice
+
+# Plot histogram of ends, display plot
+plt.hist(ends)
+plt.show()	
+
+
+61.	self-defined functions. u can use the Docstring to make others understand the function using """x, t"""
+	(triple double quotes)
+
+62.	#you can use tuple in a function to return more than 1 values
+
+def quo(x, y):
+	a = x ** y
+	b = y ** x
+	c = (a, b)
+	return c		# in this case 2 values were returned, c[0] refers to the first returned number
+	
+
+	# for a tuple num = (1, 2, 3), you can use:
+	num1, num2, num3 = num
+	# then num1 = 1, num2 = 2, num3 = 3
+
+def shout_all(word1, word2):
+    shout1 = word1 + '!!!'
+    shout2 = word2 + '!!!'
+    shout_words = (shout1, shout2)					# here a tuple was created
+    return shout_words
+yell1, yell2 = shout_all('congratulations', 'you')	# here the outcome was set in 2 variables
+print(yell1)
+print(yell2)
+
+
+63. 
+def count_entries(df, col_name):
+    langs_count = {}
+    col = df[col_name]
+    for entry in col:
+        if entry in langs_count.keys():
+            langs_count[entry] += 1
+        else:
+            langs_count[entry] = 1
+    return langs_count
+result = count_entries(tweets_df, 'lang')
+print(result)
+
+
+64. for a local variable, one can use global to make it a global one, but remember once globalized, it is a global variable
+
+for difference in global and nonlocal
+第一，两者的功能不同。global关键字修饰变量后标识该变量是全局变量，对该变量进行修改就是修改全局变量，
+而nonlocal关键字修饰变量后标识该变量是上一级函数中的局部变量，如果上一级函数中不存在该局部变量，nonlocal
+位置会发生错误（最上层的函数使用nonlocal修饰变量必定会报错）
+
+第二，两者使用的范围不同。global关键字可以用在任何地方，包括最上层函数中和嵌套函数中，即使之前未定义该变量，
+global修饰后也可以直接使用，而nonlocal关键字只能用于嵌套函数中，并且外层函数中定义了相应的局部变量，否则会发生
+错误
+
+nonlocal只能用在嵌套里面，出了母function就不能再调用了
+
+# 嵌套函数：nested function
+
+def three_shouts(word1, word2, word3):
+    """Returns a tuple of strings
+    concatenated with '!!!'."""
+
+    def inner(word):
+        return word + '!!!'
+    return (inner(word1), inner(word2), inner(word3))
+print(three_shouts('a', 'b', 'c'))
+
+
+def echo(n):
+    """Return the inner_echo function."""
+    def inner_echo(word1):
+        echo_word = word1 * n
+        return echo_word
+    return inner_echo           #这里什么都不写的话，在调用的时候一定要echo(2)('qwe')这样！
+twice = echo(2)
+thrice = echo(3)
+print(twice('hello'), thrice('hello'))
+
+
+65. # you can input as many parameters as you like in a function using 'def x(*args)'
+    
+def gibberish(*args):       # important *args
+
+    hodgepodge = ''
+    
+    for word in args:
+        hodgepodge += word
+        
+    return hodgepodge
+    
+one_word = gibberish('luke')
+many_words = gibberish("luke", "leia", "han", "obi", "darth")
+print(one_word)
+print(many_words)
+
+    # you can also input a dictionnary in to a function by using 'def x(**kwargs)'
+
+
+def report_status(**kwargs):
+
+    print("\nBEGIN: REPORT\n")
+    
+    for keys, values in kwargs.items():
+        print(keys + ": " + values)
+        
+    print("\nEND REPORT")
+
+report_status(name="luke", affiliation="jedi", status="missing")
+
+
+def foo(x,y=1,**kwargs):
+    print(x)
+    print(y)
+    print(kwargs)
+foo(1,a=2,b=3,c=4)#将1按照位置传值给x，y按照默认参数为1，a=2, b=3, c=4以字典的方式给了kwargs
+
+
+# 还有一个问题，kwargs关键字的key必须和函数定义时,形式参数的名称一模一样
+def some_kwargs(kwarg_1, kwarg_2, kwarg_3):
+    print("kwarg_1:", kwarg_1)
+    print("kwarg_2:", kwarg_2)
+    print("kwarg_3:", kwarg_3)
+
+kwargs = {"kwarg_1": "Val", "kwarg_2": "Harper", "kwarg_3": "Remy"}
+some_kwargs(**kwargs)
+# kwarg_1: Val
+# kwarg_2: Harper
+# kwarg_3: Remy
+
+# 字典key和函数定义时的形式参数名称不一致
+kwargs1 = {"kwarg_1": "Val", "kwarg_2": "Harper", "kwarg_4": "Remy"}
+some_kwargs(**kwargs1)
+# TypeError: some_args() got an unexpected keyword argument 'kwarg_4'
+
+# 字典的参数内容少了
+
+kwargs1 = {"kwarg_1": "Val", "kwarg_2": "Harper"}
+some_kwargs(**kwargs2)
+#TypeError: some_args() missing 1 required positional argument: 'kwarg_3'
+
+
+66. lambda function: easy to use functions: no need to name a function
+
+echo_word = (lambda word1, echo : word1 * echo)      # easy to write
+result = echo_word('hey', 5)
+
+-----------
+# map() 会根据提供的函数对指定序列做映射。
+nums = [2, 4, 6, 8, 10]
+result = map(lambda a: a ** 2, nums)        #the third parameter is input and return parameter! nums即为参数！
+
+print(list(result)) = [4, 16, 36, 64, 100]
+
+map(lambda x, y: x + y, [1, 3, 5, 7, 9], [2, 4, 6, 8, 10])
+outcome: [3, 7, 11, 15, 19]
+-----------
+
+#filter(function, iterable)
+# filter() to filter out the wanted outcome
+
+fellowship = ['frodo', 'samwise', 'merry', 'pippin', 'aragorn', 'boromir', 'legolas', 'gimli', 'gandalf']
+
+result = filter(lambda a: len(a) > 6 , fellowship)
+result_list = list(result)
+
+outcome:
+['samwise', 'aragorn', 'boromir', 'legolas', 'gandalf']
+
+
+过滤出1~100中平方根是整数的数：
+import math
+def is_sqr(x):
+    return math.sqrt(x) % 1 == 0
+ 
+tmplist = filter(is_sqr, range(1, 101))
+newlist = list(tmplist)
+print(newlist)
+
+outcome:[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+
+67. reduce()
+reduce() 函数会对参数序列中元素进行累积
+def add(x, y) :            # 两数相加
+    return x + y
+a = reduce(add, [1,2,3,4,5])   # 计算列表和：1+2+3+4+5
+
+outcome: a = 15
+
+reduce(lambda x, y: x+y, [1,2,3,4,5])  # 使用 lambda 匿名函数
+outcome: 15
+
+
+68. error handling using try-except
+
+try:
+except:
+
+也可以用raise方法：
+
+def shout_echo(word1, echo=1):
+    if echo < 0:
+        raise ValueError('echo must be greater than or equal to 0')     # use raise to clearify the error
+
+    echo_word = word1 * echo
+    
+    shout_word = echo_word + '!!!'
+
+    return shout_word
+
+shout_echo("particle", echo=-5)
+
+此时下面的valueerror里面就会写raise里面的内容
+
+
+69. #使用Lambda将序列中开头是'RT'的筛选出来
+
+result = filter(lambda a: a [0: 2] == 'RT', tweets_df['text'])
+res_list = list(result)
+for tweet in res_list:
+    print(tweet)
+   
+
+70. about DataFrame
+    
+    a is a dataframe
+    a.columns   直接返回的是list形式的columns的抬头名字
+    a['qwe']    qwe为columns的其中一个名字，则返回的是这一个名字下面的所有值，也是以dataframe形式返回的
+  
+
+homelessness is a DataFrame
+# Print the head of the homelessness data
+print(homelessness.head())      #返回前几行的信息
+
+# Print information about homelessness
+print(homelessness.info())      #基本信息，比如有多少个项，内存占用多少等
+
+# Print the shape of homelessness
+print(homelessness.shape)       #多少行多少列
+
+# Print a description of homelessness
+print(homelessness.describe())  #均值最大最小值等
+    
+# Print the values of homelessness
+print(homelessness.values)      #DataFrame里面每一行的信息汇总
+
+# Print the column index of homelessness
+print(homelessness.columns)     #每一列的抬头汇总
+
+# Print the row index of homelessness
+print(homelessness.index)       #每一行的抬头汇总
+
+
+Pandas关于DataFrame的sorting很强大
+1. 
+homelessness_fam = homelessness.sort_values("family_members", ascending=False)
+    #sort_values(['asd'])是直接排序，ascending是从小到大还是从大到小
+
+# Print the top few rows
+print(homelessness_fam.head())
+
+2.  
+# Sort homelessness by region, then descending family members
+homelessness_reg_fam = homelessness.sort_values(['region', 'family_members'], ascending = [False, True])
+    #可以多个一起筛选，然后每一个都可以按要求来进行ascending or not
+# Print the top few rows
+print(homelessness_reg_fam)
+
+
+#打印多个列：
+state_fam = homelessness[['state', 'family_members']]   
+# Print the head of the result
+print(state_fam.head())
+
+#多个列选项同时满足
+# Filter for rows where family_members is less than 1000 and region is Pacific
+fam_lt_1k_pac = homelessness[(homelessness['region'] == 'Pacific') & (homelessness['family_members'] < 1000)]
+
+#同时满足的条件中间一定用()括起来！
+
+
+# Subset for rows in South Atlantic or Mid-Atlantic regions
+south_mid_atlantic = homelessness[(homelessness["region"] == "South Atlantic") | (homelessness["region"] == "Mid-Atlantic")]
+#可以用|来满足or条件
+
+
+canu = ["California", "Arizona", "Nevada", "Utah"]
+# Filter for rows in the Mojave Desert states
+mojave_homelessness = homelessness[homelessness['state'].isin(canu)]
+#这个作用是将dataframe里面region列中在canu list里面出现过的这些地名的所有信息都筛选出来
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
