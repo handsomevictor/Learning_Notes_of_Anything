@@ -2121,6 +2121,127 @@ canu = ["California", "Arizona", "Nevada", "Utah"]
 mojave_homelessness = homelessness[homelessness['state'].isin(canu)]
 #这个作用是将dataframe里面region列中在canu list里面出现过的这些地名的所有信息都筛选出来
 
+----------------------------------
+一定记住可以直接乘除！
+# Add total col as sum of individuals and family_members
+homelessness["total"] = homelessness["individuals"] + homelessness["family_members"]
+
+# Add p_individuals col as proportion of individuals
+homelessness["p_individuals"] = homelessness["individuals"] / homelessness["total"]
+
+# See the result
+print(homelessness)
+
+
+----------------------------------
+agg()函数可以添加自定义的函数
+def iqr(column):
+    return column.quantile(0.75) - column.quantile(0.25)    #百分位
+
+print(sales["temperature_c"].agg(iqr))  #输出这个百分位的数
+
+#用这种方式一次输出多个列的值
+print(sales[["temperature_c", "fuel_price_usd_per_l", "unemployment"]].agg(iqr))
+#这里一定要双方括号才能输出slicing的部分
+#只有一个括号是只能输出一列！
+
+！！！！
+这里在使用agg的时候一样也可以两个函数一起添加！！
+print(sales[["temperature_c", "fuel_price_usd_per_l", "unemployment"]].agg([iqr, np.median]))
+
+----------------------------------
+# Sort sales_1_1 by date
+sales_1_1 = sales_1_1.sort_values("date")
+#sort_values()这个一定要记住！！
+
+#cumsum() = cumulative sum
+# Get the cumulative sum of weekly_sales, add as cum_weekly_sales col
+sales_1_1["cum_weekly_sales"] = sales_1_1["weekly_sales"].cumsum()
+
+#cummax() = cumulative max
+# Get the cumulative max of weekly_sales, add as cum_max_sales col
+sales_1_1["cum_max_sales"] = sales_1_1["weekly_sales"].cummax()
+
+# See the columns you calculated
+print(sales_1_1[["date", "weekly_sales", "cum_weekly_sales", "cum_max_sales"]])
+
+
+----------------------------------
+#删除重复项
+#可以指定某一列直接删除重复项，也可以指定某两列删除重复项
+
+# Drop duplicate store/type combinations
+store_types = sales.drop_duplicates(subset = ['store', 'type']) #这里subset就是指删除这两列的重复项
+print(store_types.head())
+
+# Subset the rows that are holiday weeks and drop duplicate dates
+holiday_dates = sales[sales['is_holiday']].drop_duplicates(subset = ['date'])
+
+
+----------------------------------
+# Count the number of stores of each type
+store_counts = store_types["type"].value_counts()
+print(store_counts)
+#这个的结果直接输出的就是每一种：数量
+
+# Get the proportion of stores of each type
+store_props = store_types["type"].value_counts(normalize=True)
+print(store_props)
+# normalize = True直接返回的就是每一种type的百分比
+
+# Count the number of each department number and sort
+dept_counts_sorted = store_depts["department"].value_counts(sort=True)
+print(dept_counts_sorted)
+#从大到小
+
+# Get the proportion of departments of each number and sort
+dept_props_sorted = store_depts["department"].value_counts(sort=True, normalize=True)
+print(dept_props_sorted)
+#百分比+从大到小
+
+----------------------------------
+#也可以选取某几列按照某几个参数来展示.mean()
+
+#普通方法：
+# Calc total weekly sales
+sales_all = sales["weekly_sales"].sum()
+
+# Subset for type A stores, calc total weekly sales，即计算A store下面的weekly_sales的总数
+sales_A = sales[sales["type"] == "A"]["weekly_sales"].sum()
+
+# Get proportion for each type
+sales_propn_by_type = [sales_A, sales_B, sales_C] / sales['weekly_sales'].sum()
+
+
+# groupby()方法
+# Group by type; calc total weekly sales
+sales_by_type = sales.groupby("type")["weekly_sales"].sum()
+print(sales_by_type)
+# 返回的是所有type种类列表，每个种类后面加了一个sum()的总和
+
+# 计算每个种类的比例
+sales_propn_by_type = sales_by_type / sales_by_type.sum()   #分母上的sum只是为了计算sales_by_type那type好几类的总和
+
+sales_by_type_is_holiday = sales.groupby(['type', 'is_holiday'])['weekly_sales'].sum()
+# 计算多个种类的weekly_sales的sum值
+
+#outcome:
+    type  is_holiday
+    A     False         2.337e+08
+          True          2.360e+04
+    B     False         2.318e+07
+          True          1.621e+03
+
+
+----------------------------------
+
+
+
+
+
+
+
+
 
 
 
