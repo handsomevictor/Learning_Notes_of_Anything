@@ -1,0 +1,25 @@
+# Some recommendations about Jupyter Notebook I think important
+
+# After installation, install this extension toolbox
+pip install jupyter_contrib_nbextensions && jupyter contrib nbextension install
+# And you will find all the necessary tools in VS or Spyder can be applied in notebook
+
+# Change the font and page margins
+# Go find the css file: .\Python\Python38\Lib\site-packages\notebook\static\components\codemirror\lib\codemirror.css
+# Open it with txt reader and find:
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family: Consolas, monospace;
+  height: 300px;
+  color: black;
+  direction: ltr;
+}
+# Here between font-family and monospace, you can add any font you want and a comma, and change the color direction etc.
+
+# Change the themes
+pip install --upgrade jupyterthemes
+# Check theme list
+jt -l
+# change the themes
+# For example: input 'jt -t oceans16'
+# And restart notebook
